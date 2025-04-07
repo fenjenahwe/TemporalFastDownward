@@ -371,6 +371,19 @@ class Assign(FunctionAssignment):
 
     def __str__(self):
         return "%s := %s" % (self.fluent, self.expression)
+    
+    def __hash__(self):
+        # Use a tuple of the attributes to compute the hash
+        return hash((self.symbol, self.fluent, self.expression))
+
+    def __eq__(self, other):
+        # Ensure equality is based on the attributes
+        return (
+            isinstance(other, Assign) and
+            self.symbol == other.symbol and
+            self.fluent == other.fluent and
+            self.expression == other.expression
+        )
 
 
 class ScaleUp(FunctionAssignment):
